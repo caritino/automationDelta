@@ -98,18 +98,20 @@ public class Ejercicio5 {
 		System.out.println(destinationDay);
 		System.out.println(destinationMonth);
 		
+		Calendar monthPlusOne = Calendar.getInstance(); 
+		monthPlusOne.add(Calendar.MONTH, 1);
+		String getMonthPlusOne = new SimpleDateFormat("MMM", new Locale("ES","ES")).format(monthPlusOne.getTime());
+		System.out.println("Month + 1: " + getMonthPlusOne);
+		
 		String departureMonth1 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[3]/div/div/span[1]")).getText();
 		String departureMonth2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/div/div/span[1]")).getText();
-		String monthDepartureToday = new SimpleDateFormat("MMM").format(cal.getTime());
 		
-/*		if(monthDepartureWeb.toLowerCase().contains(monthDepartureToday.toLowerCase())){
-			System.out.println("The month from today and the month displayed in the departure calendar are the same! :D");
+		if(departureMonth1.toLowerCase().contains(monthFromToday.toLowerCase()) && departureMonth2.toLowerCase().contains(getMonthPlusOne.toLowerCase())){
+			System.out.println("The months displayed in the web page are the same as the month from today and the next one");
+		} else {
+			driver.close();
 		}
-*/
-/*		SimpleDateFormat dateDeparture = new SimpleDateFormat("MMddYY");
-		String toDateHoli = String.valueOf(dateDeparture.format(date));
-		driver.findElement(By.xpath("//*[@id=\"departureDate\"]")).sendKeys(toDateHoli);
-*/		
+		
 		WebElement departureCalendar1 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[3]/table/tbody"));
 		WebElement departureCalendar2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/table/tbody"));
 		List<WebElement> dayDepartureCalendar1 = departureCalendar1.findElements(By.tagName("td"));
@@ -134,7 +136,7 @@ public class Ejercicio5 {
 		}
 		
 		Thread.sleep(2000L);
-		
+				
 		String destinationMonth1 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[3]/div/div/span[1]")).getText();
 		String destinationMonth2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/div/div/span[1]")).getText();
 		
