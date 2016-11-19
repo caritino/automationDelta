@@ -11,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 
 import org.openqa.selenium.JavascriptExecutor;
 
@@ -32,7 +31,6 @@ public class Ejercicio5 {
 				
 		String url = "http://es.delta.com/?lang=es&loc=us";
 		driver.get(url);
-		Actions builder = new Actions(driver);
 		
 		Thread.sleep(3000L);
 		
@@ -138,12 +136,27 @@ public class Ejercicio5 {
 		Thread.sleep(2000L);
 				
 		String destinationMonth1 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[3]/div/div/span[1]")).getText();
-		String destinationMonth2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/div/div/span[1]")).getText();
+//		String destinationMonth2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/div/div/span[1]")).getText();
 		
 		WebElement destinationCalendar1 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[3]/table/tbody"));
 		WebElement destinationCalendar2 = driver.findElement(By.xpath("//*[@id=\"ui-datepicker-div\"]/div[4]/table/tbody"));
 		List<WebElement> dayDestinationCalendar1 = destinationCalendar1.findElements(By.tagName("td"));
 		List<WebElement> dayDestinationCalendar2 = destinationCalendar2.findElements(By.tagName("td"));
+		int counterDaysDisabled = 0;
+		
+		for(WebElement verifyPastDaysElement : dayDestinationCalendar1){
+			if(verifyPastDaysElement.getAttribute("class").contains("ui-datepicker-unselectable ui-state-disabled") && !verifyPastDaysElement.getText().equals(" ")){
+				counterDaysDisabled++;
+			}
+		}
+		
+		System.out.println("Counter from disabled days: " + counterDaysDisabled);
+		
+		if(counterDaysDisabled == (departureDay - 1)){
+			System.out.println("The disabled days are the same as the expected.");
+		} else {
+			driver.close();
+		}
 		
 		if(destinationMonth1.toLowerCase().contains(destinationMonth.toLowerCase())){
 			for(WebElement destinationElement : dayDestinationCalendar1){
@@ -188,7 +201,7 @@ public class Ejercicio5 {
 		List<WebElement> listLookForOutbound = lookForOutbound.findElements(By.tagName("div"));
 		
 		for(WebElement lookForOutboundElement : listLookForOutbound){
-			if(lookForOutbound.getText().contains("Outbound") && lookForOutbound.getText().contains("MTY") && lookForOutbound.getText().contains("ATL")){	
+			if(lookForOutboundElement.getText().contains("Outbound") && lookForOutboundElement.getText().contains("MTY") && lookForOutboundElement.getText().contains("ATL")){	
 				System.out.println("Correct message");
 				break;
 			}
