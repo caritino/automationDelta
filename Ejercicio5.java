@@ -202,10 +202,42 @@ public class Ejercicio5 {
 		
 		for(WebElement lookForOutboundElement : listLookForOutbound){
 			if(lookForOutboundElement.getText().contains("Outbound") && lookForOutboundElement.getText().contains("MTY") && lookForOutboundElement.getText().contains("ATL")){	
-				System.out.println("Correct message");
+				System.out.println("The message: \"Outbound: MTY > ATL\" is correct");
 				break;
 			}
 		}
 		
+		Thread.sleep(1000L);
+		driver.findElement(By.xpath("//*[@id=\"0_0_0\"]")).click();
+		
+		Thread.sleep(5000L);
+		WebElement lookForRegreso = driver.findElement(By.xpath("/html/body"));
+		List<WebElement> listLookForRegreso= lookForRegreso.findElements(By.tagName("div"));
+		
+		for(WebElement lookForRegresoElement : listLookForRegreso){
+			if(lookForRegresoElement.getText().contains("Regreso") && lookForRegresoElement.getText().contains("ATL") && lookForRegresoElement.getText().contains("MTY")){	
+				System.out.println("The message: \"Regreso: ATL > MTY\" is correct.");
+				break;
+			}
+		}
+		
+		Thread.sleep(1000L);
+		driver.findElement(By.xpath("//*[@id=\"0_0_0\"]")).click();
+		
+		Thread.sleep(7000L);
+		System.out.println("\nDeparture date: " + driver.findElement(By.xpath("//*[@id=\"tripRowDetailsDisplay\"]/div[1]/div[1]/div[1]")).getText().replaceAll("[\\\t|\\\n|\\\r]"," "));
+		System.out.println("Returning date: " + driver.findElement(By.xpath("//*[@id=\"tripRowDetailsDisplay\"]/div[2]/div[1]/div[1]")).getText().replaceAll("[\\\t|\\\n|\\\r]"," "));
+		System.out.println("Passenger price: " + driver.findElement(By.xpath("//*[@id=\"tripPriceDetails\"]/div/div[1]/div[2]")).getText().replaceAll("[\\\t|\\\n|\\\r]","").replace("centavos","."));
+		System.out.println("Taxes: " + driver.findElement(By.xpath("//*[@id=\"tripPriceDetails\"]/div/div[2]/div[2]")).getText().replaceAll("[\\\t|\\\n|\\\r]","").replace("cent","."));
+		System.out.println("Total Price: " + driver.findElement(By.xpath("//*[@id=\"tripPriceTotals\"]/div/div/div[2]")).getText().replaceAll("[\\\t|\\\n|\\\r]","").replace("cent","."));
+		
+		Thread.sleep(2000L);
+		driver.findElement(By.xpath("//*[@id=\"tripSummarySubmitBtn\"]")).click();
+		
+		Thread.sleep(2000L);
+		driver.findElement(By.xpath("//*[@id=\"startOvr\"]")).click();
+		
+		Thread.sleep(2000L);
+		driver.close();
 	}
 }
